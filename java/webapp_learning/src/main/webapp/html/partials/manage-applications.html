@@ -1,0 +1,59 @@
+<form name="manageApplicationsForm" novalidate ng-controller="ManageApplicationsCtrl">
+<div class="row">
+    <div class="span8" style="padding-top:10px">
+        <p id="manage-applications-heading" style="padding-top:20px;padding-bottom:20px;font-size:36px;">Your current projects:</p>
+        <div>
+            <div ng-show="newErrors != undefined || editErrors != undefined || deleteErrors != undefined" class="alert alert-error">
+                <ul>
+                    <li ng-show="newErrors != undefined" ng-repeat="e in newErrors">{{e}}</li>
+                    <li ng-show="editErrors != undefined" ng-repeat="e in editErrors">{{e}}</li>
+                    <li ng-show="deleteErrors != undefined" ng-repeat="e in deleteErrors">{{e}}</li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:20%;"><span class="pull-left">Project name</span><button id="new-application-button" class="btn btn-success pull-right" ng-click="startNew();"><i class="icon-plus icon-white"></i> Add new project</button></th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr id="new-application" ng-show="newApplication == true">
+                    <td class="control-group" ng-class="{error: manageApplicationsForm.newApplicationName.$invalid}">
+                        <input id="new-application-name-input" type="text" class="input-xlarge" placeholder="{{newApplicationPlaceholder}}" name="newApplicationName" ng-model="newApplicationName" ng-maxlength="256" required/>
+                        <span ng-show="manageApplicationsForm.newApplicationName.$error.required" class="help-inline error">Required</span>
+                        <span ng-show="manageApplicationsForm.newApplicationName.$error.maxlength" class="help-inline error">maxlength is 256 characters</span>
+                        <span class="pull-right">
+                            <img src="img/spiffygif_20x20-white-bg.gif" ng-show="newSpinner"/>
+                            <button id="save-new-button" class="btn btn-primary" ng-disabled="manageApplicationsForm.newApplicationName.$invalid || newSpinner" ng-click="saveNew();"><i class="icon-ok icon-white"></i> Save</button> 
+                            <button id="cancel-new-button" class="btn" ng-click="cancelNew();" ng-disabled="newSpinner"><i class="icon-arrow-up"></i> Cancel</button>
+                        </span>
+                    </td>
+                </tr>
+                <tr id="application-{{application.id}}" ng-repeat="application in applications.list | orderBy: 'name'" ng-class="{'highlightChange': application.highlightChange}" scroll-if="application.highlightChange">
+                    <td id="application-name-{{application.id}}">
+                        <span ng-hide="application.editing"> 
+                            {{application.name}}
+                            <span class="pull-right">
+                                <button id="edit-button-{{application.id}}" class="btn" ng-click="startEdit(application);"><i class="icon-pencil"></i> Edit</button>
+                            </span>
+                        </span>
+                        <ng-form name="applicationForm"> 
+                            <span id="application-name-edit-section-{{application.id}}" ng-show="application.editing" class="control-group" ng-class="{error: applicationForm.editApplicationName.$invalid}">
+                                <input id="application-name-input-{{application.id}}" type="text" class="input-xlarge" name="editApplicationName" ng-model="application.editApplicationName" ng-maxlength="256" required/>
+                                <span id="required-error-message-{{application.id}}" ng-show="applicationForm.editApplicationName.$error.required" class="help-inline error">Required</span>
+                                <span id="maxlength-error-message-{{application.id}}" ng-show="applicationForm.editApplicationName.$error.maxlength" class="help-inline error">maxlength is 256 characters</span>
+                                <span class="pull-right">
+                                    <img src="img/spiffygif_20x20-white-bg.gif" ng-show="application.editSpinner"/>
+                                    <button id="save-button-{{application.id}}" class="btn btn-primary" ng-disabled="applicationForm.editApplicationName.$invalid || application.editSpinner" ng-click="saveEdit(application);"><i class="icon-ok icon-white"></i> Save</button>
+                                    <button id="cancel-button-{{application.id}}" class="btn" ng-click="cancelEdit(application);" ng-disabled="application.editSpinner"><i class="icon-arrow-up"></i> Cancel</button>
+                                </span>
+                            </span>
+                        </ng-form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</form>

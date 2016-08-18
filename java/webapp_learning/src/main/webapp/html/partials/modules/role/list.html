@@ -1,0 +1,50 @@
+<style type="text/css">
+#loading{
+	text-align: center;
+}
+</style>
+
+<div ng-show="currentUser != undefined" ng-controller="RoleListCtrl">
+    <h2>Role Management</h2>
+        <div ng-show="errors != undefined" class="alert alert-error">
+            <ul>
+                <li ng-repeat="e in errors">{{e}}</li>
+            </ul>
+        </div>
+	    <div class="mai-content" ng-hide="hideContent">
+		    <div class="row">
+		        <div class="control-group span4 form-search">
+		        	<div class="input-append">
+			            <input type="text" class="search-query" ng-model="query" size="30" placeholder="name" ui-keypress="{13:'findRoles'}">
+			            <button class="btn" ng-click="query = ''"><i class="icon-remove"></i></button>
+		            </div>
+		        </div>
+		        <div class="span3 pull-right" style="text-align: right">
+		            <a href="#/admin/role/edit" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add Role</a>
+		        </div>
+		    </div>
+		
+		    <div style="margin-top: 10px;">
+			<table class="table table-hover table-bordered role-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="role in roles | filter: query | orderBy: 'name'">
+						<td style="vertical-align: middle"><a
+							href="#/admin/role/edit?id={{role.id}}">{{role.name}}</a></td>
+						<td width="100"><button
+								ng-confirm-click="Are you sure you want to delete this role?  Deleting will remove the role from all users."
+                                ng-click="deleteRole(role)" class="btn btn-small"
+                                ng-disabled="isSystemRole(role.name)">
+								<i class="icon-trash"> </i> Delete
+							</button><img src="img/spiffygif_20x20-white-bg.gif" ng-show="role.deleteSpinner"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

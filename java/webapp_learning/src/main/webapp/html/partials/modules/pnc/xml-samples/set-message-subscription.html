@@ -1,0 +1,67 @@
+<p>
+	<b>URLs:</b><br/>
+	service endpoint: http://api4.qa.ebay.com/mobile/DeviceNotificationService/v1<br/>
+	wsdl location: http://api4.qa.ebay.com/mobile/DeviceNotificationService/v1?wsdl
+</p>
+
+<p>
+	<b>Headers</b>:
+	<ul>
+		<li>X-EBAY-SOA-OPERATION-NAME=setMessageSubscription</li>
+		<li>X-EBAY-SOA-SECURITY-APPNAME={{appProvision.ebayApiAppName}}</li>
+		<li>X-EBAY-SOA-SERVICE-NAME=MobileDeviceNotificationService</li>
+		<li>X-EBAY-SOA-MESSAGE-PROTOCOL=SOAP12</li>
+		<li>X-EBAY-SOA-REQUEST-DATA-FORMAT=XML</li>
+		<li>X-EBAY-SOA-GLOBAL-ID=EBAY-US</li>
+	</ul>
+</p>
+
+<b>Sample xml (SOAP service):</b>
+<pre class="prettyprint">
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://www.ebay.com/marketplace/mobile/v1/services"&gt;
+   &lt;soap:Header/&gt;
+   &lt;soap:Body&gt;
+        &lt;ser:setMessageSubscription&gt;
+            &lt;ser:Domain&gt;{{appProvision.domainName}}&lt;/ser:Domain&gt;
+            &lt;ser:MessageAddress&gt;
+                &lt;ser:Type&gt;{{appProvision.notificationSystem | uppercase}}&lt;/ser:Type&gt;   
+                &lt;ser:Address&gt;
+                    &lt;ser:Name&gt;DT&lt;/ser:Name&gt;
+                    &lt;ser:Value&gt;169cb522cd3c14d719f979c68c13a64b2898379db8f06b35571f615e1ec285a234&lt;/ser:Value&gt;
+                &lt;/ser:Address&gt;
+            &lt;/ser:MessageAddress&gt;
+            &lt;ser:SubscriberApp&gt;{{appProvision.appName}}&lt;/ser:SubscriberApp&gt;
+            &lt;!-- Optional: --&gt;
+            &lt;ser:Description&gt;subscription request&lt;/ser:Description&gt;
+            &lt;!-- Optional: --&gt;
+            &lt;ser:Language&gt;en-US&lt;/ser:Language&gt;
+            &lt;!-- 1 or more repetitions: --&gt;
+            &lt;ser:Subscription&gt;
+                &lt;ser:Subscriber&gt;
+                    &lt;ser:Type&gt;DEVICE_UUID&lt;/ser:Type&gt;
+                    &lt;!-- This value should be the device UUID for the current device, a 128 bit hex string. A unique device identifier (preferably unique for the life of the device). --&gt;
+                    &lt;ser:Id&gt;7e0ae5dfe85a448cb6bcc3c5a59c3abb&lt;/ser:Id&gt;
+                &lt;/ser:Subscriber&gt;
+                &lt;ser:State&gt;Enabled&lt;/ser:State&gt;
+                &lt;ser:EventGroup&gt;
+                    &lt;!-- 1 or more repetitions: --&gt;
+                    &lt;ser:Event&gt;
+                        &lt;ser:Name&gt;GENERALMAI&lt;/ser:Name&gt;
+                        &lt;ser:State&gt;Enabled&lt;/ser:State&gt;
+                    &lt;/ser:Event&gt;
+                &lt;/ser:EventGroup&gt;
+            &lt;/ser:Subscription&gt;
+        &lt;/ser:setMessageSubscription&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre>
+
+<script>
+// @prettify
+!function ($) {
+  $(function(){
+  window.prettyPrint && prettyPrint()   
+  })
+}(window.jQuery);
+// #prettify
+</script>

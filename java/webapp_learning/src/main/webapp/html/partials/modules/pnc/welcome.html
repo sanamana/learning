@@ -1,0 +1,25 @@
+<div class="span8">
+    <div ng-show="isAdmin()">
+        <h3>Getting Started</h3>
+        <p>
+            You currently don't have any mobile applications (<b>apps</b>) registered with eBay's Mobile Device
+            Notification Service (<b>MDNS</b>).
+        </p>
+        <p>You can use this tool to register your app(s). We'll guide you through the process, asking for the
+            information needed to allow your users to receive notification messages on their mobile devices. Your
+            entries on each screen will be saved, so if you don't have all the information right now, you can complete
+            the process later.</p>
+        <p>When the process is complete, we'll generate sample requests that you (or your developers) can use to
+            call MDNS.</p>
+        <p>Click below to get started.</p>
+        <a id="provision-application-button" class="btn btn-success" href="#/modules/{{applicationName}}/{{applicationId}}/pnc/form">
+            <i class="icon-plus icon-white"></i> provision application
+        </a>
+    </div>
+    <div ng-hide="isAdmin()">
+        <h3>No Mobile Applications Available Yet.</h3>
+        <p>There currently aren't any mobile applications (<b>apps</b>) registered with eBay's Mobile Device
+            Notification Service (<b>MDNS</b>).
+        </p>
+    </div>
+</div>

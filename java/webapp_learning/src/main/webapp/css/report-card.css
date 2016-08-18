@@ -1,0 +1,16 @@
+#report-card-container {
+    margin-top:20px;
+    background-color: white;
+}
+
+#report-card-table-head {
+    font-weight: bold;
+}
+
+.table td.text-center{
+    text-align: center;
+}
+
+.report-card-errors {
+    margin-top:20px;
+}

@@ -1,0 +1,90 @@
+<div ng-show="currentUser != undefined" ng-controller="RoleEditCtrl" style="margin-left:0px;">
+	<h2 ng-show="mode == 'new'">New Role</h2>
+    <h2 ng-show="mode == 'edit'">Edit Role: {{role.name}}</h2>
+	<div ng-repeat="error in newErrors" class="alert alert-error">
+        <span ng-show="error.domain != undefined"><strong>{{error.domain}}</strong> {{error.message}}</span>
+        <span ng-hide="error.domain != undefined">{{error}}</span>
+    </div>
+    <div class="alert alert-success" ng-show="success">
+		  {{success}}
+	</div>
+    <div class="mai-content">
+        <div class="control-group">
+            <label>Role Name</label>
+            <input type="text" class="span5" placeholder="role name" ng-model="role.name" ng-show="role && !isSystemRole(role.name)">
+            <div ng-show="isSystemRole(role.name)">{{role.name}}</div>
+        </div>
+        <div ng-hide="!role || isSystemRole(role.name)">
+            <div class="control-group role-section">
+                <label>Projects</label>
+                <div class="controls-row">
+                    <div class="input-append dropdown">
+                        <input type="text" placeholder="project name" typeahead="a.name for a in applicationSet | filter:{'name':$viewValue} | orderBy: 'name'" ng-model="applicationName" ui-keypress="{13:'addApplication()'}"> 
+                        <button class="btn dropdown-toggle"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="a in applicationSet | orderBy: 'name'">
+                                <a ng-click="switchInputApplication(a)">{{a.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn" style="margin-left:10px;" ng-click="addApplication()" ng-disabled='(!applicationName)'>Add</button>
+                </div>
+                <ul style="margin-left: 0;margin-top: 10px;margin-bottom:0px;" ng-show="role.applications.length != 0">
+                    <li ng-repeat="m in role.applications | orderBy: 'name'" class="label label-info application-tags" style="margin-right: 5px;">
+                        {{m.name}}<img src="img/small-red-x.png" style="margin-left:8px;cursor:pointer;" width="12" ng-click="remove(role.applications, m);" style="cursor:pointer;"> </i>
+                    </li>
+                </ul>
+            </div>
+            <div class="text-right">
+                <img src="img/spiffygif_20x20-white-bg.gif" ng-show="saveSpinner"/>
+                <button class="btn btn-primary" ng-click="saveRole()" ng-disabled='(!role.name)'>Save Role</button>
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="error in userErrors" class="alert alert-error">
+        <span ng-show="error.domain != undefined"><strong>{{error.domain}}</strong> {{error.message}}</span>
+        <span ng-hide="error.domain != undefined">{{error}}</span>
+    </div>
+    <div class="alert alert-success" ng-show="userSuccess">
+          {{userSuccess}}
+    </div>
+    <div class="alert alert-warn" ng-show="userPartialSuccess">
+          {{userPartialSuccess}}
+    </div>
+    <div class="mai-content">
+    	<legend>Users with <strong>{{role.name}}</strong> Role</legend>
+        <div class="role-section">
+            <label>Users</label>
+            <div>
+                <div class="input-append dropdown">
+                    <input placeholder="username" type="text" typeahead="u.printString for u in availableUsers | filter: {'printString': $viewValue}  | orderBy: 'username'" ui-keypress="{13:'addUser()'}" ng-model="username" ng-disabled="mode != 'edit'">
+                    <button class="btn dropdown-toggle"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="u in availableUsers | orderBy: 'username'">
+                            <a ng-click="switchInputUser(u)">{{u.printString}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn" style="margin-left:10px;" ng-click="addUser()" ng-disabled="(!username)">Add</button>
+            </div>
+        </div>
+        <table class="table table-hover table-bordered role-table" ng-show="users != undefined && users.length > 0">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users | orderBy: 'username'">
+                    <td>{{user.printString}}</td>
+                    <td width="90"><button class="btn" ng-click="remove(users, user)"><i class="icon-trash"></i>Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <img src="img/spiffygif_20x20-white-bg.gif" ng-show="saveUsersSpinner"/>
+            <button class="btn btn-primary" ng-click="saveUsers()" ng-disabled="mode != 'edit'">Save Users</button> 
+        </div>
+    </div>    
+    
+</div>

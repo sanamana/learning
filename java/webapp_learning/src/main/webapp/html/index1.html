@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test1</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="Cache-Control" content="no-store" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css"/>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<style>
+			a:visited : {color:yellow}
+			/*input { border-radius: 10px 10px 10px 10px}*/
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		<script src="../js/index.js" ></script>
+		<script src="../js/myApp.js" ></script>
+		<script src="../js/myApp1.js" ></script>
+		</head>
+	
+	<body>
+	
+	<div id="ajs" ng-app="myApp" ng-controller="sController">
+		<input type="text" ng-model="name"></input>
+		<p ng-bind="name"/>
+		<ul>
+			<li ng-repeat="x in names">
+				<p ng-bind="x.Name + ' ' + x.City"></p>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="ajs2" ng-app="myApp1" ng-controller="sController2">
+		{{firstName + " " + lastName}}
+	</div>
+
+	
+	
+	<form action="www.cnn.com">
+		<a href="http://www.cnn.com">cnn</a>
+		<br/>
+		<select name="cars">
+			<option value="Audi">Audi</option>
+			<option value="BMW" selected>BMW</option>
+		</select>
+		<br/>
+		
+		<input list="cars"/>
+		<datalist id="cars">
+			<option value="Audi">
+			<option value="BMW" selected>
+		</datalist>
+		<br/>
+		
+		<input type="tel"/>
+		<br/>
+		
+		<input type="file" name="img" multiple>
+		<input type="file" name="img" multiple>
+		<br/>
+		<input type="text" name="fname" placeholder="Enter your name">
+		<input type="submit" value="submit"/>
+		
+		
+	</form>
+	<br/>
+	<!-- <video width="400px" height="400px" controls>
+		<source src="https://www.youtube.com/watch?v=8ztbpW3THmI" type="flv"></source>
+	</video>-->
+	
+	<!--<object width="400" height="400" data="https://www.youtube.com/embed/8ztbpW3THmI"></object>
+	<br/>-->
+	<p>Click the button to get your coordinates.</p>
+	
+	<button onclick="getLocation()">Show Location</button>
+	<br/>
+	<button onclick="alertAndLog()">AlertLog</button>
+	
+	<p id="demo"></p>
+	<p id="result"></p>
+
+	<script>
+	var x = document.getElementById("demo");
+	
+	// Check browser support
+	if (typeof(Storage) != "undefined") {
+	    // Store
+	    localStorage.setItem("lastname", "Smith");
+	    // Retrieve
+	    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+	} else {
+	    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+	}
+	
+	</script>
+	
+	
+		
+	</body>
+</html>

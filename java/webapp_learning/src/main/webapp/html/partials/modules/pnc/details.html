@@ -1,0 +1,101 @@
+<div class="span8" style="padding-top:10px" ng-controller="PncAppProvisionCtrl">
+        
+    <a id="app-provision-list-link" class="btn btn-primary" href="#/modules/{{applicationName}}/{{applicationId}}/pnc/list"><i class="icon-chevron-left icon-white"></i> Back to app provision list</a>
+    <div class="mai-content" style="margin-top:20px;">
+        <div ng-show="loadSpinner" class="text-center"><img src="img/spiffygif_20x20-white-bg.gif"/></div>
+        <div ng-show="appProvision">
+        	<div id="app-provision-display-name" class="span7 row">
+        		<center><h3>{{appProvision.appName}} ({{environmentName(appProvision.environment)}})</h3></center>
+        	</div>
+        	<div class="row application-data span7" style="text-align:center;">
+                <div class="span0.5"></div>
+        		<div id="domain-name" class="span3" style="text-align:left;">
+        			Domain Name: {{appProvision.domainName}}
+        		</div> 
+                <div id="provider-name" class="span3" style="text-align:left;">
+                    Provider Name: 
+                    <span ng-show="appProvision.providerName">{{appProvision.providerName}}</span>
+                    <span ng-hide="appProvision.providerName" class="label label-important">Provider doesn't exist</span>
+                </div>
+                <div class="span0.5"></div>
+        	</div>
+        	<div class="row application-data">
+        		<div class="span7" ng-class="{'iphone-box': appProvision.notificationSystem == 'apns', 'android-box': appProvision.notificationSystem == 'gcm'}">
+        			<div class="row"> 
+        				<div class="span2">
+        					<h3>{{notificationSystemDisplay(appProvision.notificationSystem)}}</h3>
+        				</div>
+        				<div class="span5">
+                            <form name="pncDetailsForm" novalidate ng-submit="save();" ng-controller="PncAppProvisionUpdateCtrl">
+                                <div id="status" style="margin-bottom:10px;">Status: <span class="label" ng-class="statusClass(appProvision.status);">{{appProvision.status}}</span></div>
+            					<span ng-show="appProvision.volumeEstimate != undefined">Volume Estimate: {{volumeEstimateDisplay(appProvision.volumeEstimate)}} for peak day of week<br/><br/></span>
+                                <span id="ebay-api-app-name">eBay API app name:<br/> {{appProvision.ebayApiAppName}}</span>&nbsp;
+                                <a href="javascript:;" id="pop" data-toggle="popover" data-html="true"
+                                   ng-hide="true"
+                                   data-title="<b>What's this?</b>"
+                                   data-content="<p>In addition to OS-specific credentials, eBay's MDNS requires an <b>API app name</b>, one for testing and another for production. We've generated them for you.</p>"
+                                   data-trigger="hover"><i class="icon-question-sign"></i></a>
+                                <br/><br/>
+                				<div ng-show="isAdmin()">
+                                    
+                                    <p>
+                    					<div id="fileupload-container-ios" ng-show="appProvision.notificationSystem == 'apns'" class="fileupload" ng-class="{'fileupload-exists': appProvision.certFileExists, 'fileupload-new': !appProvision.certFileExists}" data-provides="fileupload">
+                    						<span id="button-container-ios" class="btn btn-file"><span class="fileupload-new"><i class="icon-folder-close"></i>Select {{appProvision.environment}} certificate file...</span>
+                    						<span class="fileupload-exists"><i class="icon-folder-close"></i>Change {{appProvision.environment}} certificate file...</span>
+                                            <input id="cert-file-input-ios" type="file" file-upload multiple/></span>
+                    						<span class="fileupload-preview"></span>
+                    						<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">&times;</a>
+                    					</div>
+                    				<p/>
+                    				<p style="padding-top:10px">
+                                        <input id="cert-password-input" type="text" ng-model="appProvision.certPassword" placeholder="enter {{getPasswordPlaceholderName(appProvision.notificationSystem)}} password" required></input>
+                                        <button id="submit-button" type="submit" ng-disabled="(appProvision.notificationSystem == 'apns' && appProvision.certFile == undefined) || pncDetailsForm.$invalid || editSpinner" class="btn btn-primary"><i class="icon-ok icon-white"></i> Submit</button>
+                                        <img src="img/spiffygif_20x20-blue-bg.gif" ng-show="editSpinner"/>
+                                    </p>
+                                    <div ng-show="errors != undefined" class="alert alert-error">
+                                        <ul>
+                                            <li ng-repeat="e in errors">{{e}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-success" ng-show="success">
+                                        {{success}}
+                                    </div>
+                                 </div>
+                            </form>
+        				</div>
+        			</div>
+        			<div class="row" style="margin-top:20px;">
+        				<div style="margin-left:35px;">
+        					<div class="row">
+        						<center>
+        							<a id="set-message-subscription-link" class="btn" href="#setMessageSubscription" data-toggle="modal" style="margin-right:20px;">Sample: Set Message Subscription</a>
+        							<a id="send-message-request-link" class="btn" href="#sendMessageRequest" data-toggle="modal">Sample: Send Message Request</a>
+        						</center>
+        					</div>
+        				</div>
+        				<!-- Modal -->
+        				<div id="setMessageSubscription" class="modal hide fade xmlSamplesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        					<div class="modal-header">
+        						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        						<h3 id="myModalLabel">Set Message Subscription</h3>
+        					</div>
+        					<div class="modal-body">
+        						<div ng-include src="'partials/modules/pnc/xml-samples/set-message-subscription.html'"></div>
+        					</div>
+        				</div>
+        				<div id="sendMessageRequest" class="modal hide fade xmlSamplesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        					<div class="modal-header">
+        						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        						<h3 id="myModalLabel">Send Message Request</h3>
+        					</div>
+        					<div class="modal-body">
+        						<div ng-include src="'partials/modules/pnc/xml-samples/send-message-request.html'"></div>
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+    <script type="text/javascript">$('#pop').popover();</script>
+</div>

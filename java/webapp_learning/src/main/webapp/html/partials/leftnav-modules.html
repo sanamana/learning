@@ -1,0 +1,52 @@
+<div id="leftnav-modules" class="nav-collapse">
+    <ul id="module-list" class="nav nav-list bs-docs-sidenav">
+        <div class="green-vertical-spacer"></div>
+        <li id="modules-header" class="leftnav-header submenu-responsive">CURRENT PROJECT</li>
+        <li id="currentApplication">
+            <a id="currentApplicationLink" href="{{applicationLink}}" ng-mouseenter="displayApplicationFlyout = true" ng-mouseleave="displayApplicationFlyout = false">
+                <img src="img/app_icon_default_lg.png" style="padding:10px 5px 10px 10px;"/>  
+                {{applicationName | truncate:24}} <i style="margin-top:23px;margin-right:10px;" class="icon-chevron-right icon-white pull-right parent-menu-item"></i>
+            </a>
+        </li>
+        <li id="modules-header" class="leftnav-header">MODULES</li>
+        <li ng-repeat="m in modules | orderBy: 'name'" ng-class="{active: module == '{{m.id}}'}">
+            
+            <a id="{{m.id}}-menu" class="moduleMenuLink" style="margin-bottom:0px;padding:0px 0px 0px 10px"
+               href="#/modules/{{applicationName}}/{{applicationId}}/{{getModuleCode(m.name)}}"
+               ng-click="saveModule(m.name)">
+                <img src="img/icon_module_placeholder.png"/> <span style="padding-left:5px;">{{m.name}}</span>
+            </a> 
+        </li> 
+    </ul>
+    
+    <ul id="application-list" class="nav nav-list bs-docs-sidenav submenu" ng-mouseenter="displayApplicationFlyout = true" ng-mouseleave="displayApplicationFlyout = false" ng-show="displayApplicationFlyout == true">
+        <li ng-repeat="application in applications.list | orderBy: 'name'" tooltip="{{getApplicationTooltip(application.name)}}">
+            <a id="application-menu-{{application.id}}" class="applicationMenuLink" style="margin-bottom:0px;padding:0px 0px 0px 10px" href="#/modules/{{application.name}}/{{application.id}}">
+                <img src="img/app_icon_default_sm.png"/> 
+                {{application.name | truncate:24}}
+            </a>
+        </li>
+        <li ng-show="isAdmin()" id="manageApplications" ng-class="{active: applicationName == 'manage-applications'}">
+            <a id="manageApplicationsLink" href="#/projects/manage">
+                <img src="img/create_app.png"/>
+                Manage Projects
+            </a>
+        </li>
+    </ul>
+    
+    <ul id="application-list-responsive" class="nav nav-list bs-docs-sidenav submenu submenu-responsive">
+    	<li id="applications-header" class="leftnav-header">PROJECTS</li>
+        <li ng-repeat="application in applications.list | orderBy: 'name'" tooltip="{{getApplicationTooltip(application.name)}}">
+            <a id="application-menu-{{application.id}}" class="applicationMenuLink" style="margin-bottom:0px;padding:0px 0px 0px 10px" href="#/modules/{{application.name}}/{{application.id}}">
+                <img src="img/app_icon_default_sm.png"/> 
+                {{application.name}}
+            </a>
+        </li>
+        <li id="manageApplications" ng-class="{active: applicationName == 'manage-applications'}">
+            <a id="manageApplicationsLink" href="#/projects/manage">
+                <img src="img/create_app.png"/>
+                Manage Projects
+            </a>
+        </li>
+    </ul>
+</div>

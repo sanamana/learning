@@ -1,0 +1,105 @@
+<div class="span8" style="padding-top:10px" ng-controller="PncAppProvisionReportCardCtrl">
+    <a id="app-provision-list-link" class="btn btn-primary" href="#/modules/{{applicationName}}/{{applicationId}}/pnc/list"><i class="icon-chevron-left icon-white"></i> Back to app provision list</a>
+    
+    <div id="report-card-container" class="bs-docs-example mai-content">
+        <div class="text-center">
+            <h3 ng-cloak class="ng-cloak">
+                <span ng-show="appProvision != undefined">{{appProvision.appName}}</span>
+                <span ng-show="appProvision == undefined && maiException != undefined">Could not retrieve AppProvision.</span>
+            </h3></div>
+        <div ng-show="maiException != undefined" class="alert alert-error report-card-errors">
+        <ul>
+            <li ng-repeat="e in maiException">{{e}}</li>
+        </ul>
+    </div>
+        <table class="table">
+            <thead id="report-card-table-head">
+                <td>Element</td>
+                <td class="text-center">Status</td>
+            </thead> 
+            <tbody>
+                <tr>
+                    <td>
+                        AppProvision exists in MAI database
+                        <div ng-show="appProvisionErrors != undefined" class="alert alert-error report-card-errors">
+                            <ul>
+                                <li ng-repeat="e in appProvisionErrors">{{e}}</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="!appProvisionLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="appProvisionLoaded">
+                            <span ng-show="appProvision.id != undefined"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="appProvision.id == undefined"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>eBay API app name is valid</td>
+                    <td class="text-center">
+                        <span ng-show="!appProvisionLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="appProvisionLoaded">
+                            <span ng-show="appProvision.ebayApiAppName != undefined"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="appProvision.ebayApiAppName == undefined"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>AppProvision exists in MDNS database</td>
+                    <td class="text-center">
+                        <span ng-show="!appProvisionLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="appProvisionLoaded">
+                            <span ng-show="appProvision.mobileApplicationId != undefined"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="appProvision.mobileApplicationId == undefined"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-show="appProvision.notificationSystem == 'apns'">
+                    <td>APNS cert file and password are valid</td>
+                    <td class="text-center">
+                        <span ng-show="!appProvisionLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="appProvisionLoaded">
+                            <span ng-show="appProvision.certFileExists"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="!appProvision.certFileExists"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Channel created in eSAMS
+                        <div ng-show="esamsChannelErrors != undefined" class="alert alert-error report-card-errors">
+                            <ul>
+                                <li ng-repeat="e in esamsChannelErrors.errors">{{e}}</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="!esamsChannelResultLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="esamsChannelResultLoaded">
+                            <span ng-show="esamsChannelErrors == undefined"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="esamsChannelErrors != undefined"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        MDNS VI pool configured with new app provision
+                        <div ng-show="mdnsViConfigErrors != undefined" class="alert alert-error report-card-errors">
+                            <ul>
+                                <li ng-repeat="e in mdnsViConfigErrors.errors">{{e}}</li>
+                            </ul>
+                        </div>    
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="!mdnsViConfigResultLoaded && maiException == undefined"><img src="img/spiffygif_20x20-white-bg.gif"/></span>
+                        <span ng-show="mdnsViConfigResultLoaded">
+                            <span ng-show="mdnsViConfigErrors == undefined"><img src="img/icon_success_lg.png"/></span>
+                            <span ng-show="mdnsViConfigErrors != undefined"><img src="img/icon_error_lg.png"/></span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

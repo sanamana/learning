@@ -1,0 +1,18 @@
+<div id="leftnav-applications" class="nav-collapse">
+    <ul id="application-list" class="nav nav-list bs-docs-sidenav">
+        <div class="green-vertical-spacer"></div>
+        <li id="applications-header" class="leftnav-header">PROJECTS</li>
+        <li ng-repeat="application in applications.list | orderBy: 'name'" tooltip="{{getApplicationTooltip(application.name)}}">
+            <a id="application-menu-{{application.id}}" class="applicationMenuLink" style="margin-bottom:0px;padding:0px 0px 0px 10px" href="#/modules/{{application.name}}/{{application.id}}">
+                <img src="img/app_icon_default_sm.png"/> 
+                {{application.name | truncate:24}}
+            </a>
+        </li>
+        <li ng-show="isAdmin()" id="manageApplications" ng-class="{active: applicationName == 'manage-applications'}">
+            <a id="manageApplicationsLink" href="#/projects/manage">
+                <img src="img/create_app.png"/>
+                Manage Projects
+            </a>
+        </li>
+    </ul>
+</div>

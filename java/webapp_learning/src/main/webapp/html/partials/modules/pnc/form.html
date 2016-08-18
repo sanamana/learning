@@ -1,0 +1,169 @@
+
+<form name="pncForm" novalidate ng-submit="save();" ng-controller="PncAppProvisionFormCtrl">
+<div class="span7" ng-show="isAdmin() && providers">
+    <p style="font-size:26px;padding-top:20px;padding-bottom:20px;">Provision for Push Notifications</p>
+    <div class="accordion" id="accordion">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    Application Name
+                    <span class="pull-right">
+                        <span ng-show="pncForm.domainName.$invalid || pncForm.appName.$invalid || pncForm.providerName.$invalid">
+                            <img width="20" src="img/icon_error_lg.png"/>
+                        </span>
+                        <span ng-show="pncForm.domainName.$valid && pncForm.appName.$valid && pncForm.providerName.$valid">
+                            <img width="20" src="img/icon_success_lg.png"/>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                    <div style="margin-top:5px;" class="control-group" ng-class="{error: pncForm.domainName.$invalid}">
+                        <span style="font-weight:bold;">Domain Name</span><br/>
+                        <span class="description-text">Brief label for identifying your business or business unit. A single Domain Name is typically used for 
+                        several mobile applications belonging to a single organization.</span><br/>
+                        <input id="domain-name-input" type="text" name="domainName" ng-model="appProvision.domainName" 
+                            placeholder="your domain name" ng-pattern="/^[a-zA-Z0-9]*$/" ng-maxlength="256" required/>
+                        <span ng-show="pncForm.domainName.$error.required" class="help-inline error">Required</span>
+                        <span ng-show="pncForm.domainName.$error.pattern" class="help-inline error">letters and numbers only</span>
+                        <span ng-show="pncForm.domainName.$error.maxlength" class="help-inline error">maxlength is 256 characters</span>
+                    </div>
+                    <div style="margin-top:5px;" class="control-group" ng-class="{error: pncForm.appName.$invalid}">
+                        <span style="font-weight:bold;">Base Name</span><br/>
+                        <span class="description-text">A short name for your mobile application. It will be used in generating internal ids 
+                        for each mobile operating system for which your app is available.</span><br/>
+                        <input id="app-name-input" type="text" name="appName" ng-model="appProvision.appName" 
+                            placeholder="your app name" ng-pattern="/^[a-zA-Z0-9_]*$/" ng-maxlength="124" required/>
+                        <span ng-show="pncForm.appName.$error.required" class="help-inline">Required</span>
+                        <span ng-show="pncForm.appName.$error.pattern" class="help-inline error">letters, numbers and underscores only</span>
+                        <span ng-show="pncForm.appName.$error.maxlength" class="help-inline error">maxlength is 124 characters</span>
+                    </div>
+                    <div style="margin-top:5px;" class="control-group" ng-class="{error: pncForm.providerName.$invalid}">
+                        <span style="font-weight:bold;">Provider Name</span><br/>
+                        <span class="description-text">What is the provider for users?</span><br/>
+                        <select id="provider-input" name="providerName" ng-model="appProvision.providerName" ng-options="p as p for p in providers | orderBy: 'toString()'" required>
+                            <option value=""></option>
+                        </select>
+                        <span ng-show="pncForm.providerName.$error.required" class="help-inline">Required</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                    Ebay API App Name
+                    <span class="pull-right">
+                        <span ng-show="pncForm.ebayApiAppName.$invalid">
+                            <img width="20" src="img/icon_error_lg.png"/>
+                        </span>
+                        <span ng-show="pncForm.ebayApiAppName.$valid">
+                            <img width="20" src="img/icon_success_lg.png"/>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner control-group chosen" ng-class="{error: pncForm.ebayApiAppName.$invalid}">
+                    <span class="description-text">The eBay API app name from the eBay developer site.</span><br/>
+                    <input id="ebay-api-app-name-input" type="text" name="ebayApiAppName" ng-model="appProvision.ebayApiAppName" 
+                            placeholder="your ebay api app name" ng-pattern="/^[a-zA-Z0-9-]*$/" ng-maxlength="1024" required/>
+                    <span ng-show="pncForm.ebayApiAppName.$error.pattern" class="help-inline error">letters, numbers and hyphens only</span>
+                    <span ng-show="pncForm.ebayApiAppName.$error.required" class="help-inline">Required</span>
+                    <span ng-show="pncForm.ebayApiAppName.$error.maxlength" class="help-inline error">maxlength is 1024 characters</span>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                    Volume Estimate
+                    <span class="pull-right">
+                        <span ng-show="pncForm.volumeEstimate.$invalid">
+                            <img width="20" src="img/icon_error_lg.png"/>
+                        </span>
+                        <span ng-show="pncForm.volumeEstimate.$valid">
+                            <img width="20" src="img/icon_success_lg.png"/>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner control-group" ng-class="{error: pncForm.volumeEstimate.$invalid}">
+                    <span class="description-text">How many total messages on the peak day of the week?</span><br/>
+                    <select id="volume-estimate-input" name="volumeEstimate" ng-model="appProvision.volumeEstimate" required>
+                        <option value=""></option>
+                        <option value="100">1 - 100</option>
+                        <option value="1k">101 - 1000</option>
+                        <option value="10k">1001 - 10,000</option>
+                        <option value="100k" selected="true">10,000 - 100,000</option>
+                        <option value="1m">100,000 - 1 million</option>
+                        <option value="infinity">billions and billions...</option>
+                    </select>
+                    <span ng-show="pncForm.volumeEstimate.$error.required" class="help-inline">Required</span>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                    Credentials
+                    <span class="pull-right">
+                        <span ng-show="pncForm.certPassword.$invalid || (appProvision.notificationSystem == 'apns' && appProvision.certFile == undefined)">
+                            <img width="20" src="img/icon_error_lg.png"/>
+                        </span>
+                        <span ng-show="pncForm.certPassword.$valid && (appProvision.notificationSystem != 'apns' || appProvision.certFile != undefined)">
+                            <img width="20" src="img/icon_success_lg.png"/>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div id="collapseFour" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="control-group" ng-class="{error: pncForm.notificationSystem.$invalid}">
+                        <span class="description-text">What notification system is used for the mobile app?</span><br/>
+                        <select id="notification-system-input" name="notificationSystem" ng-model="appProvision.notificationSystem" required>
+                            <option value=""></option>
+                            <option value="apns">APNS</option>
+                            <option value="gcm">GCM</option>
+                        </select>
+                        <span ng-show="pncForm.notificationSystem.$error.required" class="help-inline">Required</span>
+                    </div>
+                    <div id="credentials" ng-show="appProvision.notificationSystem">
+                        <div class="row" style="margin-top:20px;">
+                            <div class="offset1 span4 control-group" ng-class="{'error': pncForm.certPassword.$invalid, 'iphone-box': appProvision.notificationSystem == 'apns', 'android-box': appProvision.notificationSystem == 'gcm'}">
+                                <center><h4>{{appProvision.notificationSystem | uppercase}} {{environmentText}}</h4></center>
+                                <span ng-show="appProvision.notificationSystem == 'apns'">
+                                    <div id="fileupload-container-qa" class="fileupload fileupload-new" data-provides="fileupload">
+                                        <span id="button-container-qa" class="btn btn-file">
+                                            <span class="fileupload-new"><i class="icon-folder-close"></i>Select {{environmentText}} certificate file...</span>
+                                            <span class="fileupload-exists"><i class="icon-folder-close"></i>Change {{environmentText}} certificate file...</span>
+                                            <input id="cert-file-input-qa" name="certFile" type="file" file-upload multiple required/>
+                                        </span>
+                                        <span style="color:#000000" class="fileupload-preview"></span>
+                                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">&times;</a>
+                                    </div>
+                                </span>
+                                <input id="cert-password-input-qa" type="text" name="certPassword" ng-model="appProvision.certPassword" placeholder="enter {{getPasswordPlaceholderName(appProvision.notificationSystem)}} password" style="margin-top:10px" required></input>
+                                <span ng-show="pncForm.certPassword.$error.required" class="help-inline">Required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="errors != undefined" class="alert alert-error">
+        <ul>
+            <li ng-repeat="e in errors">{{e}}</li>
+        </ul>
+    </div>
+    <div class="row" style="margin-top:40px">
+        <span class="pull-right" style="margin-bottom:50px">
+            <img src="img/spiffygif_20x20-grey-bg.gif" ng-show="newSpinner"/>
+            <button id="submit-button" type="submit" ng-disabled="(pncForm.$invalid || (appProvision.notificationSystem == 'apns' && appProvision.certFile == undefined)) || newSpinner" class="btn btn-primary"><i class="icon-ok icon-white"></i> Submit</button>
+        </span>
+    </div>
+</div>
+</form>

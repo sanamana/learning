@@ -1,0 +1,20 @@
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavBarCtrl">
+    <div class="navbar-inner">
+        <div id="navbar-logo" style="padding-top:13px;padding-left:20px;float:left;"><a href="#/" title="home"><img width="150" src="img/ebay_inc_logo.png" /></a></div>
+        <div id="navbar-heading" style="padding-left:100px;padding-top:23px;width:350px;float:left;"><img src="img/enterprise_app_admin.png"/></div>
+        
+        <div id="navbar-user" ng-show="currentUser" class="pull-right" style="color:white;">
+            Welcome, &nbsp;
+            <span class="dropdown">
+                
+                <a id="user-dropdown" class="dropdown-toggle" role="button" href="#" data-toggle="dropdown">{{currentUser}}<span class="caret"></span></a>
+                <ul id="user-menu-items" class="dropdown-menu pull-right" role="menu" style="margin-top:10px" aria-labelledby="user-dropdown">
+                    <li ng-show="isAdmin()" role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/role/list">Administration</a></li>
+                    <li role="presentation" ng-hide="true"><a role="menuitem" tabindex="-1" href="#">Help</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/login" ng-click="logout()">Log Out</a></li>
+                </ul>
+            </span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="mai-welcome-content span5" style="margin-top: 50px;">
+	<p style="font-weight: bold;">Welcome to the Easy On-Boarding Tool (Merchant Admin Interface)</p>
+    <p>This tool facilitates provisioning mobile Apps with push notifications via eBay’s highly scalable Mobile Device Notification Service (MDNS) for notification delivery. The primary benefits of MDNS are scalability, a common interface isolating Apps from provider changes, and access to other eBay services and data sources.</p>
+	<p></p>
+    <p>This tool supports new and existing iOS and Android Apps:</p>
+    <ul>
+        <li>Assigning access and roles to users</li>
+        <li>App on-boarding & provisioning</li>
+        <li>Subsequent maintenance (e.g. annual key-pair rotation)</li>
+    </ul>
+    <p></p>
+    <p>Please contact Craig Calder for additional information (<a href="mailto:crcalder@ebay.com">crcalder@ebay.com</a>).</p>
+</div>
+
+<div class="span6">
+	<div ng-controller="LoginCtrl" style="margin-top: 10px">
+		<form name="loginForm" novalidate ng-submit="login();">
+		    <div ng-show="authErrors != undefined || errors != undefined" class="alert alert-error">
+		        <ul>
+		            <li ng-repeat="e in authErrors">{{e}}</li>
+		            <li ng-repeat="e in errors">{{e}}</li>
+		        </ul>
+		    </div>
+            <legend>Sign In</legend>
+		    <div class="mai-content">
+		    	<div class="controls-row">
+				    <input type="text" class="span2" placeholder="Username" ng-model="username">
+				    <input type="password" class="span2" placeholder="Password" ng-model="password">
+				    <button class="btn btn-primary" style="margin-left:30px;" type="submit">Sign in</button>
+			    </div>
+		    </div> 
+		</form>
+	</div>
+	
+	<div ng-controller="RegisterCtrl">
+		<div ng-show="errors != undefined" class="alert alert-error">
+	        <ul>
+	            <li ng-repeat="e in errors">{{e}}</li>
+	        </ul>
+	    </div>
+        <div class="alert alert-success" ng-show="success">
+            {{success}}
+        </div>
+        <form name="registerForm" novalidate ng-hide="success" ng-submit="register();">
+            <legend>
+                Register
+            </legend>
+			<div class="mai-content">
+				<div class="controls-row">
+					<input type="text" class="span2" placeholder="First name" ng-model="user.firstname">
+					<input type="text" class="span2" placeholder="Last name" ng-model="user.lastname">
+                    <div class="control-label">
+                        <input type="checkbox" style="margin-left:15px;" ng-click="clearPasswords()" ng-model="user.corpuser"> <span style="vertical-align:middle;">corpuser?</span>
+                    </div>
+				</div>
+                
+                <div class="control-group" ng-class="{error: registerForm.email.$invalid}">
+				    <input type="email" name="email" class="span4" placeholder="Email" ng-model="user.emailAddress">
+                    <br/><div class="help-inline" ng-show="registerForm.email.$error.email">Invalid Email</div>
+                </div>
+                
+                <div class="control-group" ng-class="{error: registerForm.username.$invalid}">
+				    <input type="text" name="username" class="span4" placeholder="Username" ng-model="user.username" alphanumeric>
+                    <span class="help-inline" ng-show="registerForm.username.$error.alphanumeric">Must be alphanumeric and start with a letter.</span>
+                </div>
+                
+                <input type="password" name="password" class="span4" ng-hide="user.corpuser" placeholder="Password" ng-model="user.password">
+				    
+                <div class="controls-row control-group" ng-class="{error: registerForm.password2.$invalid}">
+                    <input type="password" name="password2" class="span4" ng-hide="user.corpuser" placeholder="Re-type Password" ng-model="user.password2" ui-validate-equals="user.password">
+                    <input type="password" style="margin-left: 0px;" name="corpPassword" ng-show="user.corpuser" class="span4" placeholder="Corp Password" ng-model="user.corpPassword">
+                    <button type="submit" class="btn btn-primary" style="margin-left:30px" ng-disabled="registerForm.$invalid">Register</button>
+                    <div class="help-inline" ng-show='registerForm.password2.$error.equal'>Both passwords must match.</div>
+                </div>
+			</div>
+		</form>
+	</div>
+</div>

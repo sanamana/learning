@@ -1,0 +1,45 @@
+<p>
+	<b>URLs:</b><br/>
+	service endpoint: http://api4.qa.ebay.com/mobile/mds/v1/sendMessages<br/>
+</p>
+
+<p>
+	<b>Headers:</b>
+	<ul>
+		<li>Authorization=APP {{appProvision.ebayApiAppName}}</li>
+		<li>Content-Type=application/xml</li>
+		<li>Accept=application/xml</li>
+	</ul>
+</p>
+
+<b>Sample xml (RESTful service):</b>
+<pre class="prettyprint lang-xml">
+&lt;SendMessageRequest&gt;
+   &lt;Message&gt;
+      &lt;Receiver&gt;
+         &lt;!--There can be multiple id elements--&gt;
+         &lt;Id&gt;7e0ae5dfe85a448cb6bcc3c5a59c3abb&lt;/Id&gt;
+         &lt;Type&gt;Device&lt;/Type&gt;
+         &lt;Provider&gt;{{appProvision.providerName}}&lt;/Provider&gt;
+         &lt;Domain&gt;{{appProvision.domainName}}&lt;/Domain&gt;
+         &lt;Application&gt;{{appProvision.appName}}&lt;/Application&gt;
+         &lt;!--or EVENTS--&gt;
+         &lt;EventName&gt;GENERALMAI&lt;/EventName&gt;
+      &lt;/Receiver&gt;
+      &lt;Data&gt;
+         &lt;Payload&gt;{"aps":{"alert":"Xyz...","sound":"default.caf"},"dba":{"itm":"7d57fab429e946b39ecf357d121fbf9b","evt":"GENERALMAI"}}&lt;/Payload&gt;
+         &lt;FormatRequired&gt;false&lt;/FormatRequired&gt;
+      &lt;/Data&gt;
+   &lt;/Message&gt;
+&lt;/SendMessageRequest&gt;
+</pre>
+
+<script>
+// @prettify
+!function ($) {
+  $(function(){
+  window.prettyPrint && prettyPrint()   
+  })
+}(window.jQuery);
+// #prettify
+</script>

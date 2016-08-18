@@ -1,0 +1,30 @@
+<div class="span8" style="padding-top:10px" ng-controller="PncAppProvisionListCtrl">
+
+	<p style="font-size:26px;padding-top:20px;padding-bottom:20px;">Your current application provisions:</p>
+    <div class="row" ng-show="isAdmin()">
+        <a id="add-new-app-provision" class="btn btn-primary pull-right" style="margin-bottom:20px;" href="#/modules/{{applicationName}}/{{applicationId}}/pnc/form"><i class="icon-plus icon-white"></i> Add new provision</a>
+    </div>
+	<div class="mai-content">
+        <table class="table" data-provides="rowlink">
+    		<thead>
+    			<tr> 
+    				<th style="width:20%;">App Name</th>
+    				<th style="width:20%;">Environment</th>
+    				<th style="width:20%;">Notification System</th>
+    				<th style="width:40%;">Status</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr id="app-provision-{{appProvision.environment}}" class="rowlink" ng-click="details(appProvision.id)" ng-repeat="appProvision in appProvisions" ng-class="rowClass(appProvision.status);">
+    				<td id="app-name-{{appProvision.environment}}">{{appProvision.appName}}</td>
+    				<td id="environment-{{appProvision.environment}}">{{environmentName(appProvision.environment)}}</td>
+    				<td id="notification-system-{{appProvision.environment}}">{{appProvision.notificationSystem}}</td>
+    				<td id="status-{{appProvision.environment}}">
+                        <span ng-show="isCorpUser()"><a href="#/modules/{{applicationName}}/{{applicationId}}/pnc/report-card/{{appProvision.id}}">{{appProvision.status}}</a></span>
+                        <span ng-show="!isCorpUser()">{{appProvision.status}}</span>
+                    </td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+</div>
